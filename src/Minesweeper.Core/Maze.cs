@@ -11,6 +11,7 @@ namespace Minesweeper.Core
         public Cell Cell {  get; private set; }
         public Seed Seed { get; private set; }
         public Cell[,] MineSweeperMaze {  get; private set; }
+
         public int MazeSize(int mazeSize)
         {
             if (mazeSize == 1)
