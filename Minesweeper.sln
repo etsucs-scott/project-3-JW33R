@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Core", "src\Minesweeper.Core\Minesweeper.Core.csproj", "{7E1BD34F-22BE-41B3-8B6D-8213B9262832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Console", "src\Minesweeper.Console\Minesweeper.Console.csproj", "{3E8B7DA3-D4A3-44EC-86C2-5AAB64CE421D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Cli", "src\Minesweeper.Console\Minesweeper.Cli.csproj", "{3E8B7DA3-D4A3-44EC-86C2-5AAB64CE421D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,5 +50,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7E1BD34F-22BE-41B3-8B6D-8213B9262832} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{3E8B7DA3-D4A3-44EC-86C2-5AAB64CE421D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37B38794-32AE-42B8-BB23-7E18D753BE7F}
 	EndGlobalSection
 EndGlobal

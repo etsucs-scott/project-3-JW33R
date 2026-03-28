@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Core
 {
-    internal class Numbers
+    public class GameEngine
     {
+        public int Score { get; private set; }
+
     }
 }
