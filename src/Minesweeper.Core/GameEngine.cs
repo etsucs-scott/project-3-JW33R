@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace Minesweeper.Core
         {
             Maze = new Maze();
         }
-
         public void BFSGrid(Cell[,] grid, int startrow, int startcol)
         {
             Cell cell = Maze.MineSweeperMaze[startrow, startcol];
@@ -27,40 +27,52 @@ namespace Minesweeper.Core
             int cols = grid.GetLength(1);
             var seen = new bool[rows, cols];
             var q = new Queue<(int r, int c)>();
-            int[] directionrows = { 0, 1, 0, -1 };
-            int[] directioncols = { 1, 0, -1, 0 };
+            int[] directionrows = { 0, 1, 0, -1, -1, -1, 1, 1};
+            int[] directioncols = { 1, 0, -1, 0, -1, 1, 1, -1};
             seen[startrow, startcol] = true;
             q.Enqueue((startrow, startcol));
+            var neighborCells = new List<(int r, int c)>();
             while (q.Count > 0)
             {
-                
+                neighborCells.Clear();
                 var (r, c) = q.Dequeue();
                 cell = Maze.MineSweeperMaze[r, c];
                 cell.MakeRevelead();
-                
-                for (int k = 0; k < 4; k++)
+                if (cell.AdjacentMines > 0)
                 {
-                    var seenLocal = new bool[r, c];
+                    continue;
+                }
+                for (int k = 0; k < 8; k++)
+                {
                     int nextrow = r + directionrows[k];
                     int nextcol = c + directioncols[k];
-                    if (q.Count > 0 && seen[nextrow, nextcol])
-                    {
-                        q.Dequeue();
-                    }
-
-
-                    if (nextrow < 0 || nextrow >= rows || nextcol < 0 || nextcol >= cols || seen[nextrow, nextcol])
+                    if (nextrow < 0 || nextrow >= rows || nextcol < 0 || nextcol >= cols)
                     {
                         continue;
                     }
                     if (Maze.MineSweeperMaze[nextrow, nextcol].HasMine)
                     {
                         cell.ChangeAdjacentMines();
+                        continue;
                     }
-
-                    seenLocal[nextrow, nextcol] = true;
-                    q.Enqueue((nextrow, nextcol));
+                    if (seen[nextrow, nextcol])
+                    {
+                        continue;
+                    }
+                    neighborCells.Add((nextrow, nextcol));
+                    seen[nextrow, nextcol] = true;
                 }
+                for (int i = 0; i < neighborCells.Count; i++)
+                {
+                    if (cell.AdjacentMines == 0)
+                    {
+                        q.Enqueue(neighborCells[i]);
+                    }
+                    else if (cell.AdjacentMines > 0)
+                    {
+                        break;
+                    }
+                }     
             }
         }
     }
