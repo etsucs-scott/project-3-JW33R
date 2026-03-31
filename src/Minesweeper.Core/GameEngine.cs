@@ -40,19 +40,25 @@ namespace Minesweeper.Core
                 
                 for (int k = 0; k < 4; k++)
                 {
+                    var seenLocal = new bool[r, c];
                     int nextrow = r + directionrows[k];
                     int nextcol = c + directioncols[k];
-                    
+                    if (q.Count > 0 && seen[nextrow, nextcol])
+                    {
+                        q.Dequeue();
+                    }
+
+
                     if (nextrow < 0 || nextrow >= rows || nextcol < 0 || nextcol >= cols || seen[nextrow, nextcol])
                     {
                         continue;
                     }
-                    if (Maze.MineSweeperMaze[nextrow, nextcol].HasMine || Maze.MineSweeperMaze[nextrow, nextcol].AdjacentMines > 0)
+                    if (Maze.MineSweeperMaze[nextrow, nextcol].HasMine)
                     {
                         cell.ChangeAdjacentMines();
                     }
 
-                    seen[nextrow, nextcol] = true;
+                    seenLocal[nextrow, nextcol] = true;
                     q.Enqueue((nextrow, nextcol));
                 }
             }
