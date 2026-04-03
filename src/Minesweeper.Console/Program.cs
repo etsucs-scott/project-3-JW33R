@@ -1,26 +1,26 @@
 ﻿using Minesweeper.Cli;
 using Minesweeper.Core;
+using System.Timers;
 ConsoleRender consoleRender = new();
-Maze maze = new Maze();
-Seed seed;
-GameEngine engine = new();
+int score = 0;
+int moves = 0;
 consoleRender.PrintChoices();
 var mazeSize = int.Parse(Console.ReadLine());
 consoleRender.AskForSeed();
 var seedNum = int.Parse(Console.ReadLine());
-seed = new(seedNum);
-engine.Maze.GenerateMaze(maze.MazeSize(mazeSize), seed);
-var command = Console.ReadLine();
-var command1 = int.Parse(Console.ReadLine());
-var command2 = int.Parse(Console.ReadLine());
-engine.BFSGrid(engine.Maze.MineSweeperMaze, command1, command2);
-
-for (int i = 0; i < engine.Maze.MineSweeperMaze.GetLength(0); i++)
+consoleRender.GameEngine.Maze.GenerateMaze(consoleRender.GameEngine.Maze.MazeSize(mazeSize), seedNum);
+Console.Clear();
+consoleRender.GameEngine.ScoreCounter(score, consoleRender.GameEngine.Lost);
+while (consoleRender.GameEngine.Lost == false)
 {
-    for (int j = 0; j < engine.Maze.MineSweeperMaze.GetLength(0); j++)
-    {
-        Console.Write($"{engine.Maze.MineSweeperMaze[i, j]}");
-    }
-    Console.WriteLine();
-        
+    Console.WriteLine($"Time: {consoleRender.GameEngine.Score}  Moves: {consoleRender.GameEngine.Moves}");
+    consoleRender.PrintCommands();
+    consoleRender.PrintMaze();
+    Console.WriteLine("Type command");
+    var command = Console.ReadLine();
+    moves++;
+    Console.Clear();
+    consoleRender.GameEngine.TakeInput(command);
 }
+consoleRender.GameEngine.CalculateHighScore(score, moves, consoleRender.GameEngine.HighScore);
+

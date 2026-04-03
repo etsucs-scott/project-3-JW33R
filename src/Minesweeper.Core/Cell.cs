@@ -46,9 +46,16 @@ namespace Minesweeper.Core
         }
         public void PlaceFlagged()
         {
-            if (!IsFlagged)
+            if (!IsFlagged && !IsRevealed)
             {
                 IsFlagged = true;
+            }
+        }
+        public void UnFlagged()
+        {
+            if (IsFlagged)
+            {
+                IsFlagged = false;
             }
         }
         public void MakeRevelead()

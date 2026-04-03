@@ -9,7 +9,6 @@ namespace Minesweeper.Core
     public class Maze
     {
         public Cell Cell {  get; private set; }
-        public Seed Seed { get; private set; }
         public Cell[,] MineSweeperMaze {  get; private set; }
 
         public int MazeSize(int mazeSize)
@@ -50,7 +49,7 @@ namespace Minesweeper.Core
                 return 0;
             }
         }
-        public void GenerateMaze(int mazeSize, Seed seed)
+        public void GenerateMaze(int mazeSize, int seed)
         {
             MineSweeperMaze = new Cell[mazeSize, mazeSize];
             for (int i = 0; i < MineSweeperMaze.GetLength(0); i++)
@@ -64,7 +63,7 @@ namespace Minesweeper.Core
             }
             PlaceMineInMaze(mazeSize, seed);
         }
-        public void PlaceMineInMaze(int mazeSize, Seed seed)
+        public void PlaceMineInMaze(int mazeSize, int seed)
         {
             for (int i = 0; i < BombAmount(mazeSize); i++)
             {
