@@ -15,8 +15,10 @@ namespace Minesweeper.Core
         public bool Lost { get; private set; }
         public int Moves { get; private set; }
         public int HighScore { get; private set; }
+        public FileHandling FileHandling { get; private set; }
         public GameEngine()
         {
+            FileHandling = new FileHandling();
             Maze = new Maze();
         }
         public void TakeInputFlag(string command)
@@ -32,7 +34,7 @@ namespace Minesweeper.Core
                 cell.UnFlagged();
             }
         }
-        public void CalculateHighScore(int score, int moves, int highscore, int previousMoves)
+        public void CalculateHighScore(int score, int moves, int highscore)
         {
             if (score < highscore)
             {
@@ -40,7 +42,7 @@ namespace Minesweeper.Core
             }
             else if (score == highscore)
             {
-                if (moves < previousMoves)
+                if (moves < Moves)
                 {
                     HighScore = score;
                 }
@@ -52,10 +54,16 @@ namespace Minesweeper.Core
             if (splitCommand[0].ToUpper() == "F")
             {
                 TakeInputFlag(command);
+                Moves++;
             }
             else if (splitCommand[0].ToUpper() == "R")
             {
                 BFSGrid(Maze.MineSweeperMaze, int.Parse(splitCommand[1]), int.Parse(splitCommand[2]));
+                Moves++;
+            }
+            else if (command.ToUpper() == "Q")
+            {
+                Lost = true;
             }
         }
         public void ScoreCounter(int score, bool Lost)
@@ -75,7 +83,7 @@ namespace Minesweeper.Core
             Cell cell = Maze.MineSweeperMaze[startrow, startcol];
             if (cell.HasMine)
             {
-                Console.WriteLine("You lost");
+                Lost = true;
                 return;
             }
             int rows = grid.GetLength(0);

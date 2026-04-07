@@ -10,17 +10,21 @@ consoleRender.AskForSeed();
 var seedNum = int.Parse(Console.ReadLine());
 consoleRender.GameEngine.Maze.GenerateMaze(consoleRender.GameEngine.Maze.MazeSize(mazeSize), seedNum);
 Console.Clear();
-consoleRender.GameEngine.ScoreCounter(score, consoleRender.GameEngine.Lost);
 while (consoleRender.GameEngine.Lost == false)
 {
-    Console.WriteLine($"Time: {consoleRender.GameEngine.Score}  Moves: {consoleRender.GameEngine.Moves}");
+    Console.WriteLine($"Time: {consoleRender.GameEngine.Score}  Moves: {consoleRender.GameEngine.Moves}  Seed: {seedNum}");
     consoleRender.PrintCommands();
     consoleRender.PrintMaze();
     Console.WriteLine("Type command");
     var command = Console.ReadLine();
     moves++;
+    if (score <= 0)
+    {
+        consoleRender.GameEngine.ScoreCounter(score, consoleRender.GameEngine.Lost);
+    }
     Console.Clear();
     consoleRender.GameEngine.TakeInput(command);
 }
 consoleRender.GameEngine.CalculateHighScore(score, moves, consoleRender.GameEngine.HighScore);
+consoleRender.GameEngine.FileHandling.SaveGame(mazeSize, score, moves, seedNum, );
 
