@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Cli
 {
+    /// <summary>
+    /// Class used for making functions that print to the console
+    /// </summary>
     public class ConsoleRender
     {
         public GameEngine GameEngine { get; private set; }
@@ -14,16 +17,25 @@ namespace Minesweeper.Cli
         {
             GameEngine = new GameEngine();
         }
+        /// <summary>
+        /// Prints the choices for the maze size to the console
+        /// </summary>
         public void PrintChoices()
         {
             Console.WriteLine("1.) 8x8");
             Console.WriteLine("2.) 12x12");
             Console.WriteLine("3.) 16x16");
         }
+        /// <summary>
+        /// Asks the user for a seed
+        /// </summary>
         public void AskForSeed()
         {
             Console.WriteLine("Enter a seed(Hit enter if you don't have one): ");
         }
+        /// <summary>
+        /// Prints the entire maze
+        /// </summary>
         public void PrintMaze()
         {
             Console.Write("  ");
@@ -42,6 +54,9 @@ namespace Minesweeper.Cli
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// Prints the commands for the user to the console
+        /// </summary>
         public void PrintCommands()
         {
             Console.WriteLine("Commands:");

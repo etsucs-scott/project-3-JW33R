@@ -8,6 +8,9 @@ using System.Timers;
 
 namespace Minesweeper.Core
 {
+    /// <summary>
+    /// Main place where the game is played
+    /// </summary>
     public class GameEngine
     {
         public int Score { get; private set; }
@@ -25,6 +28,10 @@ namespace Minesweeper.Core
             Score = 0;
             Moves = 0;
         }
+        /// <summary>
+        /// Used to take input and placing or removing a flag
+        /// </summary>
+        /// <param name="command"></param>
         public void TakeInputFlag(string command)
         {
             var splitCommand = command.Split(' ');
@@ -38,6 +45,9 @@ namespace Minesweeper.Core
                 cell.UnFlagged();
             }
         }
+        /// <summary>
+        /// Used to dish out values in the beginning of the game
+        /// </summary>
         public void GiveValues()
         {
             var data = FileHandling.LoadGame();
@@ -45,6 +55,10 @@ namespace Minesweeper.Core
             Moves = int.Parse(data[2]);
 
         }
+        /// <summary>
+        /// Used to calculate a highscore if the user wins
+        /// </summary>
+        /// <param name="moves"></param>
         public void CalculateHighScore(int moves)
         {
             var info = FileHandling.LoadGame();
@@ -66,6 +80,10 @@ namespace Minesweeper.Core
                 HighScore = Score;
             }
         }
+        /// <summary>
+        /// Used to take input
+        /// </summary>
+        /// <param name="command"></param>
         public void TakeInput(string command)
         {
             var splitCommand = command.Split(' ');
@@ -78,6 +96,11 @@ namespace Minesweeper.Core
                 BFSGrid(Maze.MineSweeperMaze, int.Parse(splitCommand[1]), int.Parse(splitCommand[2]));
             }
         }
+        /// <summary>
+        /// Used to check to see if the player won the game
+        /// </summary>
+        /// <param name="mazeSize"></param>
+        /// <param name="bombAmount"></param>
         public void CheckWin(int mazeSize, int bombAmount)
         {
             if (RevealedCells == (mazeSize*mazeSize) - bombAmount)
@@ -85,6 +108,10 @@ namespace Minesweeper.Core
                 Won = true;
             }
         }
+        /// <summary>
+        /// Used to start the timer that tracks the score
+        /// </summary>
+        /// <param name="lost"></param>
         public void ScoreCounter(bool lost)
         {
             var timer = new System.Timers.Timer(1000);
@@ -96,7 +123,12 @@ namespace Minesweeper.Core
             }
         }
 
-
+        /// <summary>
+        /// Used to check for mines and reveal cells in the grid using breadth first search
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="startrow"></param>
+        /// <param name="startcol"></param>
         public void BFSGrid(Cell[,] grid, int startrow, int startcol)
         {
             Cell cell = Maze.MineSweeperMaze[startrow, startcol];

@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Core
 {
+    /// <summary>
+    /// Used to make the minesweeper maze
+    /// </summary>
     public class Maze
     {
         public Cell Cell {  get; private set; }
         public Cell[,] MineSweeperMaze {  get; private set; }
-
+        /// <summary>
+        /// Used to get the size of the maze based on the users choice
+        /// </summary>
+        /// <param name="mazeSize"></param>
+        /// <returns></returns>
         public int MazeSize(int mazeSize)
         {
             if (mazeSize == 1)
@@ -30,6 +37,11 @@ namespace Minesweeper.Core
                 return 0;
             }
         }
+        /// <summary>
+        /// Used to get the bomb amount based on mazesize
+        /// </summary>
+        /// <param name="mazeSize"></param>
+        /// <returns></returns>
         public int BombAmount(int mazeSize)
         {
             if (mazeSize == 8)
@@ -49,6 +61,11 @@ namespace Minesweeper.Core
                 return 0;
             }
         }
+        /// <summary>
+        /// Used to generate the maze in the beginning of the game
+        /// </summary>
+        /// <param name="mazeSize"></param>
+        /// <param name="seed"></param>
         public void GenerateMaze(int mazeSize, int seed)
         {
             MineSweeperMaze = new Cell[mazeSize, mazeSize];
@@ -63,6 +80,11 @@ namespace Minesweeper.Core
             }
             PlaceMineInMaze(mazeSize, seed);
         }
+        /// <summary>
+        /// Used to place bombs in the game based on the seed and amount of bombs
+        /// </summary>
+        /// <param name="mazeSize"></param>
+        /// <param name="seed"></param>
         public void PlaceMineInMaze(int mazeSize, int seed)
         {
             Random random = new(seed);
@@ -73,10 +95,20 @@ namespace Minesweeper.Core
                 MineSweeperMaze[rowBomb, colBomb].PlaceMine();
             }
         }
+        /// <summary>
+        /// Used to place a flag in the maze
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void PlaceFlag(int x, int y)
         {
             MineSweeperMaze[x, y].PlaceFlagged();
         }
+        /// <summary>
+        /// Used to place a mine in the maze
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void PlaceMine(int x, int y)
         {
             MineSweeperMaze[x, y].PlaceMine();
