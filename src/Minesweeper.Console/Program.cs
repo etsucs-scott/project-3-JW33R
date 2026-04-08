@@ -89,8 +89,8 @@ else if (consoleRender.GameEngine.Won == true)
     if (consoleRender.GameEngine.HighScore == consoleRender.GameEngine.Score)
     {
         Console.WriteLine("Congratulations! You got a new highscore!");
+        consoleRender.GameEngine.FileHandling.SaveGame(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), consoleRender.GameEngine.HighScore, consoleRender.GameEngine.Moves, seedNumInt, DateTime.Now.ToString("d"));
     }
-    consoleRender.GameEngine.FileHandling.SaveGame(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), consoleRender.GameEngine.HighScore, consoleRender.GameEngine.Moves, seedNumInt, DateTime.Now.ToString("d"));
 }
 else
 {

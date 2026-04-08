@@ -21,11 +21,7 @@ namespace Minesweeper.Core
         /// <returns></returns>
         public override string ToString()
         {
-            if (HasMine)
-            {
-                return "b";
-            }
-            else if (IsFlagged)
+            if (IsFlagged)
             {
                 return "f";
             }
