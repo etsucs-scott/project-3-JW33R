@@ -15,6 +15,8 @@ namespace Minesweeper.Core
         public bool Lost { get; private set; }
         public int Moves { get; private set; }
         public int HighScore { get; private set; }
+        public bool Won { get; private set; }
+        public int RevealedCells { get; private set; }
         public FileHandling FileHandling { get; private set; }
         public GameEngine()
         {
@@ -34,17 +36,21 @@ namespace Minesweeper.Core
                 cell.UnFlagged();
             }
         }
-        public void CalculateHighScore(int score, int moves, int highscore)
+        public void CalculateHighScore(int moves, int highscore)
         {
-            if (score < highscore)
+            var info = FileHandling.LoadGame();
+            info[0] = Score.ToString();
+            info[1] = Moves.ToString();
+            info[2] = highscore.ToString();
+            if (Score < highscore)
             {
-                HighScore = score;
+                HighScore = Score;
             }
-            else if (score == highscore)
+            else if (Score == highscore)
             {
                 if (moves < Moves)
                 {
-                    HighScore = score;
+                    HighScore = Score;
                 }
             }
         }
@@ -66,12 +72,19 @@ namespace Minesweeper.Core
                 Lost = true;
             }
         }
-        public void ScoreCounter(int score, bool Lost)
+        public void CheckWin(int bombAmount)
+        {
+            if (RevealedCells == Maze.MineSweeperMaze.Length - bombAmount)
+            {
+                Won = true;
+            }
+        }
+        public void ScoreCounter(bool lost)
         {
             var timer = new System.Timers.Timer(1000);
             timer.Elapsed += (sender, e) => Score++; //sender is object that raised the event, e is the event data(time data raised)
             timer.Start();
-            if (Lost)
+            if (lost || Won)
             {
                 timer.Stop();
             }
@@ -101,6 +114,7 @@ namespace Minesweeper.Core
                 var (r, c) = q.Dequeue();
                 cell = Maze.MineSweeperMaze[r, c];
                 cell.MakeRevelead();
+                RevealedCells++;
                 if (cell.AdjacentMines > 0)
                 {
                     continue;
