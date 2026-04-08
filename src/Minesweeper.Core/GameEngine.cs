@@ -22,6 +22,8 @@ namespace Minesweeper.Core
         {
             FileHandling = new FileHandling();
             Maze = new Maze();
+            Score = 0;
+            Moves = 0;
         }
         public void TakeInputFlag(string command)
         {
@@ -36,22 +38,32 @@ namespace Minesweeper.Core
                 cell.UnFlagged();
             }
         }
-        public void CalculateHighScore(int moves, int highscore)
+        public void GiveValues()
+        {
+            var data = FileHandling.LoadGame();
+            HighScore = int.Parse(data[1]);
+            Moves = int.Parse(data[2]);
+
+        }
+        public void CalculateHighScore(int moves)
         {
             var info = FileHandling.LoadGame();
-            info[0] = Score.ToString();
-            info[1] = Moves.ToString();
-            info[2] = highscore.ToString();
-            if (Score < highscore)
+            if (info == null)
             {
                 HighScore = Score;
+                return;
             }
-            else if (Score == highscore)
+            Moves = int.Parse(info[2]);
+            if (Score == HighScore)
             {
                 if (moves < Moves)
                 {
                     HighScore = Score;
                 }
+            }
+            else if (Score < HighScore)
+            {
+                HighScore = Score;
             }
         }
         public void TakeInput(string command)
@@ -60,21 +72,15 @@ namespace Minesweeper.Core
             if (splitCommand[0].ToUpper() == "F")
             {
                 TakeInputFlag(command);
-                Moves++;
             }
             else if (splitCommand[0].ToUpper() == "R")
             {
                 BFSGrid(Maze.MineSweeperMaze, int.Parse(splitCommand[1]), int.Parse(splitCommand[2]));
-                Moves++;
-            }
-            else if (command.ToUpper() == "Q")
-            {
-                Lost = true;
             }
         }
-        public void CheckWin(int bombAmount)
+        public void CheckWin(int mazeSize, int bombAmount)
         {
-            if (RevealedCells == Maze.MineSweeperMaze.Length - bombAmount)
+            if (RevealedCells == (mazeSize*mazeSize) - bombAmount)
             {
                 Won = true;
             }
@@ -113,8 +119,11 @@ namespace Minesweeper.Core
                 neighborCells.Clear();
                 var (r, c) = q.Dequeue();
                 cell = Maze.MineSweeperMaze[r, c];
-                cell.MakeRevelead();
-                RevealedCells++;
+                if (!cell.IsRevealed)
+                {
+                    cell.MakeRevelead();
+                    RevealedCells++;
+                }
                 if (cell.AdjacentMines > 0)
                 {
                     continue;

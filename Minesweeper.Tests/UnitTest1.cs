@@ -7,7 +7,7 @@ namespace Minesweeper.Tests
         [Fact]
         public void Test1()
         {
-
+            
         }
     }
 }

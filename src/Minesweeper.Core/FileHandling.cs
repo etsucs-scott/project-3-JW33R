@@ -8,7 +8,7 @@ namespace Minesweeper.Core
 {
     public class FileHandling
     {
-        public void SaveGame(int mazeSize, int seconds, int moves, int seed, int timestamp)
+        public void SaveGame(int mazeSize, int seconds, int moves, int seed, string timestamp)
         {
             var fileName = "minesweeper_save.csv";
             if (File.Exists(fileName))
@@ -25,7 +25,7 @@ namespace Minesweeper.Core
             if (File.Exists(fileName))
             {
                 var data = File.ReadAllLines(fileName);
-                var gameData = data[1].Split(", ");
+                var gameData = data[1].Split(",");
                 return gameData;
             }
             else

@@ -29,6 +29,7 @@ namespace Minesweeper.Core
             }
             else if (AdjacentMines > 0)
             {
+                IsRevealed = true;
                 return AdjacentMines.ToString();
             }
             else if (IsRevealed && !IsFlagged && !HasMine)
@@ -37,12 +38,14 @@ namespace Minesweeper.Core
             }
             return string.Empty;
         }
-        public void PlaceMine()
+        public bool PlaceMine()
         {
-            if (!HasMine)
+            if (!HasMine && !IsRevealed)
             {
                 HasMine = true;
+                return true;
             }
+            return false;
         }
         public void PlaceFlagged()
         {

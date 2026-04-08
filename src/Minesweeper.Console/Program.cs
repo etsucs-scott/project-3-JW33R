@@ -4,6 +4,7 @@ using System.Timers;
 ConsoleRender consoleRender = new();
 int score = 0;
 int moves = 0;
+consoleRender.GameEngine.GiveValues();
 consoleRender.PrintChoices();
 var mazeSize = Console.ReadLine();
 if (int.TryParse(mazeSize, out int mazeSizeInt) == false)
@@ -28,10 +29,10 @@ if (seedNum == "")
     seedNumInt = DateTime.UtcNow.Ticks.GetHashCode();
 }
 consoleRender.GameEngine.Maze.GenerateMaze(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), seedNumInt);
-while (consoleRender.GameEngine.Lost == false || consoleRender.GameEngine.Won == false)
+while (consoleRender.GameEngine.Lost == false && consoleRender.GameEngine.Won == false)
 {
     Console.Clear();
-    Console.WriteLine($"Time: {consoleRender.GameEngine.Score}  Moves: {consoleRender.GameEngine.Moves}  Seed: {seedNumInt}  HighScore: {consoleRender.GameEngine.HighScore}\n");
+    Console.WriteLine($"Time: {consoleRender.GameEngine.Score}  Moves: {moves}  Seed: {seedNumInt}  HighScore: {consoleRender.GameEngine.HighScore}\n");
     consoleRender.PrintCommands();
     consoleRender.PrintMaze();
     Console.WriteLine("Type command");
@@ -44,7 +45,7 @@ while (consoleRender.GameEngine.Lost == false || consoleRender.GameEngine.Won ==
         {
             throw new CommandException("Command cannot be null or empty");
         }
-        if (int.Parse(splitCommand[1]) > consoleRender.GameEngine.Maze.MineSweeperMaze.GetLength(0) || int.Parse(splitCommand[1]) < 0 || int.Parse(splitCommand[2]) > consoleRender.GameEngine.Maze.MineSweeperMaze.GetLength(0) || int.Parse(splitCommand[2]) < 0)
+        if ((int.Parse(splitCommand[1]) > consoleRender.GameEngine.Maze.MineSweeperMaze.GetLength(0) || int.Parse(splitCommand[1]) < 0 || int.Parse(splitCommand[2]) > consoleRender.GameEngine.Maze.MineSweeperMaze.GetLength(0) || int.Parse(splitCommand[2]) < 0))
         {
             throw new CommandException("Command coordinates are out of bounds");
         }
@@ -59,6 +60,10 @@ while (consoleRender.GameEngine.Lost == false || consoleRender.GameEngine.Won ==
     catch (Exception)
     {
         Console.Clear();
+        if (command.ToUpper() == "Q")
+        {
+            break;
+        }
         Console.WriteLine("Invalid command");
         Console.ReadLine();
         continue;
@@ -70,15 +75,25 @@ while (consoleRender.GameEngine.Lost == false || consoleRender.GameEngine.Won ==
     }
     Console.Clear();
     consoleRender.GameEngine.TakeInput(command);
-    consoleRender.GameEngine.CheckWin(consoleRender.GameEngine.Maze.BombAmount(mazeSizeInt));
+    consoleRender.GameEngine.CheckWin(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), consoleRender.GameEngine.Maze.BombAmount(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt)));
 }
 if (consoleRender.GameEngine.Lost == true)
 {
     Console.WriteLine("You lost!");
 }
+else if (consoleRender.GameEngine.Won == true)
+{
+    Console.WriteLine("You won!");
+    Console.WriteLine($"Maze Size: {consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt)}, Your score is: {consoleRender.GameEngine.Score}, Your Seed: {seedNum}, Highscore: {consoleRender.GameEngine.HighScore}, Timestamp of Highscore: {consoleRender.GameEngine.FileHandling.LoadGame()[4]}");
+    consoleRender.GameEngine.CalculateHighScore(moves);
+    if (consoleRender.GameEngine.HighScore == consoleRender.GameEngine.Score)
+    {
+        Console.WriteLine("Congratulations! You got a new highscore!");
+    }
+    consoleRender.GameEngine.FileHandling.SaveGame(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), consoleRender.GameEngine.HighScore, consoleRender.GameEngine.Moves, seedNumInt, DateTime.Now.ToString("d"));
+}
 else
 {
-    consoleRender.GameEngine.CalculateHighScore(moves, consoleRender.GameEngine.HighScore);
-    consoleRender.GameEngine.FileHandling.SaveGame(mazeSizeInt, score, moves, seedNumInt, score);
-}    
+    Console.WriteLine("Quitter!");
+}
 

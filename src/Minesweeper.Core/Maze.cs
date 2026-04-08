@@ -66,17 +66,12 @@ namespace Minesweeper.Core
         public void PlaceMineInMaze(int mazeSize, int seed)
         {
             Random random = new(seed);
-            for (int i = 0; i < BombAmount(mazeSize); i++)
+            for (int i = 0; i < BombAmount(mazeSize) + 2; i++)
             {
                 var rowBomb = random.Next(0, MineSweeperMaze.GetLength(0));
                 var colBomb = random.Next(0, MineSweeperMaze.GetLength(0));
                 MineSweeperMaze[rowBomb, colBomb].PlaceMine();
             }
-        }
-        public int RandomNum(int seed)
-        {
-            Random random = new(seed);
-            return random.Next(0, MineSweeperMaze.GetLength(0)); 
         }
         public void PlaceFlag(int x, int y)
         {
