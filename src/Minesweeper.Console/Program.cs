@@ -2,7 +2,6 @@
 using Minesweeper.Core;
 using System.Timers;
 ConsoleRender consoleRender = new();
-int score = 0;
 int moves = 0;
 consoleRender.GameEngine.GiveValues();
 consoleRender.PrintChoices();
