@@ -125,6 +125,10 @@ namespace Minesweeper.Core
                 timer.Stop();
             }
         }
+        public void IncreaseRevealedCells()
+        {
+            RevealedCells++;
+        }
 
         /// <summary>
         /// Used to check for mines and reveal cells in the grid using breadth first search
@@ -157,7 +161,7 @@ namespace Minesweeper.Core
                 if (!cell.IsRevealed)
                 {
                     cell.MakeRevelead();
-                    RevealedCells++;
+                    IncreaseRevealedCells();
                 }
                 if (cell.AdjacentMines > 0)
                 {
