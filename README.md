@@ -1,43 +1,29 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ozVFrFMv)
 # CSCI 1260 — Project
-
-## Project Instructions
-All project requirements, grading criteria, and submission details are provided on **D2L**.  
-Refer to D2L as the *authoritative source* for this assignment.
-
-This repository is intentionally minimal. You are responsible for:
-- Creating the solution and projects
-- Designing the class structure
-- Implementing the required functionality
-
----
-
-## Getting Started (CLI)
-
-You may use **Visual Studio**, **VS Code**, or the **terminal**.
-
-### Create a solution
-```bash
-dotnet new sln -n ProjectName
+### How to Build and Run the Project
+```Bash
+git clone https://github.com/etsucs-scott/project-3-JW33R.git
+dotnet run --project src/Minesweeper.Cli
 ```
-
-### Create a project (example: console app)
-```bash
-dotnet new console -n ProjectName.App
+### Simple ways the game works
+```Bash
+Board Sizes - 8x8, 12x12, 16x16
+Input commands: R(reveall) row col, F(flag) row col
+Seed Usuage: You will be prompted to enter a seed and if you decide to it will decide where the bombs are placed and if you don't enter any then it will create one for you. Also if you put 1-3 into the seed it will also pick for you
 ```
-
-### Add the project to the solution
-```bash
-dotnet sln add ProjectName.App
+### High Scores
+```Bash
+High scores are stored in a csv file. You will only save your stats to a csv if you win the game
 ```
-
-### Build and run
-```bash
-dotnet build
-dotnet run --project ProjectName.App
+### Board Symbols
+```Bash
+# - UnRevealed
+. - Revealed
+f - flag
+Numbers - how many bombs are adjacent to that space
+b - bomb
 ```
-
-## Notes
-- Commit early and commit often.
-- Your repository history is part of your submission.
-- Update this README with build/run instructions specific to your project.
+### How to run Unit Tests
+```Bash
+In Visual Studio click test and then click run tests
+```
