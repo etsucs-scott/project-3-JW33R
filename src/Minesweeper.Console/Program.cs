@@ -24,11 +24,11 @@ if (int.TryParse(seedNum, out int seedNumInt) == false && !(seedNum == ""))
     Console.WriteLine("Only numbers are allowed");
     return;
 }
-if (seedNum == "")
+if (seedNum == "" || seedNumInt < 3)
 {
     seedNumInt = DateTime.UtcNow.Ticks.GetHashCode();
 }
-consoleRender.GameEngine.Maze.GenerateMaze(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), seedNumInt);
+    consoleRender.GameEngine.Maze.GenerateMaze(consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt), seedNumInt);
 while (consoleRender.GameEngine.Lost == false && consoleRender.GameEngine.Won == false)
 {
     Console.Clear();
@@ -84,7 +84,10 @@ if (consoleRender.GameEngine.Lost == true)
 else if (consoleRender.GameEngine.Won == true)
 {
     Console.WriteLine("You won!");
-    Console.WriteLine($"Maze Size: {consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt)}, Your score is: {consoleRender.GameEngine.Score}, Your Seed: {seedNum}, Highscore: {consoleRender.GameEngine.HighScore}, Timestamp of Highscore: {consoleRender.GameEngine.FileHandling.LoadGame()[4]}");
+    if (!(consoleRender.GameEngine.FileHandling.LoadGame() == null))
+    {
+        Console.WriteLine($"Maze Size: {consoleRender.GameEngine.Maze.MazeSize(mazeSizeInt)}, Your score is: {consoleRender.GameEngine.Score}, Your Seed: {seedNum}, Highscore: {consoleRender.GameEngine.HighScore}, Timestamp of Highscore: {consoleRender.GameEngine.FileHandling.LoadGame()[4]}");
+    }
     consoleRender.GameEngine.CalculateHighScore(moves);
     if (consoleRender.GameEngine.HighScore == consoleRender.GameEngine.Score)
     {

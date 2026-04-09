@@ -88,7 +88,7 @@ namespace Minesweeper.Core
         public void PlaceMineInMaze(int mazeSize, int seed)
         {
             Random random = new(seed);
-            for (int i = 0; i < BombAmount(mazeSize) + 2; i++)
+            for (int i = 0; i < BombAmount(mazeSize); i++)
             {
                 var rowBomb = random.Next(0, MineSweeperMaze.GetLength(0));
                 var colBomb = random.Next(0, MineSweeperMaze.GetLength(0));

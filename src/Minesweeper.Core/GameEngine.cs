@@ -51,8 +51,11 @@ namespace Minesweeper.Core
         public void GiveValues()
         {
             var data = FileHandling.LoadGame();
-            HighScore = int.Parse(data[1]);
-            Moves = int.Parse(data[2]);
+            if (!(data == null))
+            {
+                HighScore = int.Parse(data[1]);
+                Moves = int.Parse(data[2]);
+            }
 
         }
         /// <summary>
